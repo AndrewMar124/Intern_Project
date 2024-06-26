@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"log"
+	"html/template"
 
 	_ "github.com/lib/pq"
 )

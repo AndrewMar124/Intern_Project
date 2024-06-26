@@ -6,3 +6,6 @@ ToDo:
 - populate db
 - http requests: sign in
 - GPT dashboard / html
+
+
+ORGANIZE PROJECT
