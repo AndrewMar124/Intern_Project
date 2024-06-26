@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://user:password@db:5432/exampledb
+      DATABASE_URL: postgres://user:password@db:5432/exampledb?sslmode=disable
 
 volumes:
   db_data:
