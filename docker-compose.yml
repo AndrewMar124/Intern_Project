@@ -5,6 +5,8 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: exampledb
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
   web:
     build: .
@@ -13,8 +15,7 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: user
-      DB_PASSWORD: password
-      DB_NAME: exampledb
+      DATABASE_URL: postgres://user:password@db:5432/exampledb
+
+volumes:
+  db_data:
