@@ -1,0 +1,8 @@
+Done:
+- go init
+- docker init
+- web - > db init
+ToDo:
+- populate db
+- http requests: sign in
+- GPT dashboard / html
