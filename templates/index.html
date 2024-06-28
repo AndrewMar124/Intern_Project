@@ -3,90 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Adjustable Dashboard</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #6B9080;
         }
         .header {
-            background-color: #A4C3B2;
-            color: #F6FFF8;
-            text-shadow: black;
-            padding: 20px;
-            text-align: center;
             width: 100%;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            width: 90%;
-            margin-top: 20px;
-        }
-        .card {
-            background-color: #EAF4F4;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 30%;
-            margin: 20px;
+            background-color: #007bff;
+            color: #fff;
             padding: 20px;
-            border-radius: 8px;
             text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
         }
-        .card h3 {
-            margin-bottom: 20px;
+        .window {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            width: 200px;
+            height: 150px;
+            margin-top: 60px; /* to prevent initial overlap with header */
         }
-        .card p {
-            font-size: 2em;
-            margin: 0;
+        .window-title {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Dashboard</h1>
+        Home Page
     </div>
-    <div class="container">
-        <div class="card">
-            <h3>Total Sales</h3>
-            <p id="sales">1,234</p>
-        </div>
-        <div class="card">
-            <h3>New Users</h3>
-            <p id="users">567</p>
-        </div>
-        <div class="card">
-            <h3>Active Users</h3>
-            <p id="active-users">890</p>
-        </div>
-        <div class="card">
-            <h3>Revenue</h3>
-            <p id="revenue">$12,345</p>
-        </div>
-        <div class="card">
-            <h3>Conversion Rate</h3>
-            <p id="conversion-rate">5.6%</p>
-        </div>
-        <div class="card">
-            <h3>Customer Satisfaction</h3>
-            <p id="satisfaction">4.5/5</p>
-        </div>
+
+    <div id="window1" class="window">
+        <div class="window-title">Window 1</div>
+        <div class="window-content">Content for window 1</div>
     </div>
+    <div id="window2" class="window">
+        <div class="window-title">Window 2</div>
+        <div class="window-content">Content for window 2</div>
+    </div>
+    <div id="window3" class="window">
+        <div class="window-title">Window 3</div>
+        <div class="window-content">Content for window 3</div>
+    </div>
+    <div id="window4" class="window">
+        <div class="window-title">Window 4</div>
+        <div class="window-content">Content for window 4</div>
+    </div>
+    <div id="window5" class="window">
+        <div class="window-title">Window 5</div>
+        <div class="window-content">Content for window 5</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
-        // Dummy data update simulation
-        setInterval(() => {
-            document.getElementById('sales').innerText = (Math.random() * 1000 + 1000).toFixed(0);
-            document.getElementById('users').innerText = (Math.random() * 500 + 500).toFixed(0);
-            document.getElementById('active-users').innerText = (Math.random() * 1000).toFixed(0);
-            document.getElementById('revenue').innerText = '$' + (Math.random() * 10000 + 1000).toFixed(2);
-            document.getElementById('conversion-rate').innerText = (Math.random() * 10).toFixed(1) + '%';
-            document.getElementById('satisfaction').innerText = (Math.random() * 5).toFixed(1) + '/5';
-        }, 3000);
+        $(function() {
+            $(".window").draggable({
+                containment: [0, 60, $(window).width() - 200, $(window).height() - 150]
+            }).resizable();
+        });
     </script>
 </body>
 </html>
