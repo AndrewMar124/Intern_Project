@@ -86,7 +86,7 @@
     border-radius: 10px;
   }
   .dropdown-content a:hover {
-    background-color: #fffffff;
+    background-color: #ffffff;
   }
   
   /* GRID */
@@ -124,6 +124,10 @@
   }
   .col-4 {
     width: 25%;
+    background-color:#222831;
+  }
+  .col-5 {
+    width: 100%;
     background-color:#222831;
   }
   
