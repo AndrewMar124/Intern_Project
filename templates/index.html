@@ -1,78 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adjustable Dashboard</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            width: 100%;
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-        }
-        .window {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            width: 200px;
-            height: 150px;
-            margin-top: 60px; /* to prevent initial overlap with header */
-        }
-        .window-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        Home Page
-    </div>
+{{ template "head" . }}
 
-    <div id="window1" class="window">
-        <div class="window-title">Hi</div>
-        <div class="window-content">Content for window 1</div>
-    </div>
-    <div id="window2" class="window">
-        <div class="window-title">Window 2</div>
-        <div class="window-content">Content for window 2</div>
-    </div>
-    <div id="window3" class="window">
-        <div class="window-title">Window 3</div>
-        <div class="window-content">Content for window 3</div>
-    </div>
-    <div id="window4" class="window">
-        <div class="window-title">Window 4</div>
-        <div class="window-content">Content for window 4</div>
-    </div>
-    <div id="window5" class="window">
-        <div class="window-title">Window 100000</div>
-        <div class="window-content">Content for window 5</div>
-    </div>
+{{ link "/foo" "Foo"}}
+{{ link "/bar" "Bar"}}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        $(function() {
-            $(".window").draggable({
-                containment: [0, 60, $(window).width() - 200, $(window).height() - 150]
-            }).resizable();
-        });
-    </script>
-</body>
-</html>
+<p class="bg-gray-100">{{.test}}</p>
+<p>{{toString .slice }}</p>
+
+
+{{ template "foot" }}
