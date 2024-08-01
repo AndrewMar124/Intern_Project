@@ -16,6 +16,13 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://user:password@db:5432/exampledb?sslmode=disable
+    develop:
+      watch:
+        - path: ./main.go
+          action: sync
+          target: /app/web
+        - path: ./main.go
+          action: rebuild
 
 volumes:
   db_data:

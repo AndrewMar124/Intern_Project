@@ -35,7 +35,6 @@ func main() {
 	// initialize database
 	initDB()
 	defer db.Close()
-
 	http.HandleFunc("/", homeHandler)
 	
 	fmt.Println("Starting server on :8080")
