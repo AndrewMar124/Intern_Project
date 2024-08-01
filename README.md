@@ -4,7 +4,7 @@ For the GSC cyber analyst internship, summer '24, I was given the task of creati
 
 ## Goals
 
-- Gain a foundation in AI and the complexities there of.
+- Gain a foundation in AI and the complexities thereof.
 - Learn about the web application lifecycle: DevOps, CI/CD, testing, etc...
 - Add to the list of development tools and coding languages that I can use fluently
 - minimalist front end / backend design, with little to no loss of functionality
