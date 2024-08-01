@@ -36,10 +36,10 @@ func initTemplates() templates {
 	}
 
 	// also parse files in subdirectories of templates
-	t, err = t.ParseGlob("templates/*/*.html")
-	if err != nil {
-		log.Fatal(err)
-	}
+	//t, err = t.ParseGlob("templates/*/*.html")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// all templates created
 	return templates{t}
@@ -55,8 +55,8 @@ func main() {
 	// you should also add middleware.CSRF(), once you have forms
 
 	e.GET("/", root)
-	e.GET("/foo", foo)
-	e.GET("/bar", bar)
+	//e.GET("/foo", foo)
+	//e.GET("/bar", bar)
 	// fix
 	e.GET("/dash", dash)
 	e.Static("/dist", "./dist")
@@ -71,7 +71,7 @@ func root(c echo.Context) error {
 		"slice": []int{1, 2, 3},
 	})
 }
-
+/*
 func foo(c echo.Context) error {
 	return c.Render(200, "foo.html", map[string]interface{}{
 		"title": "Foo",
@@ -83,7 +83,7 @@ func bar(c echo.Context) error {
 		"title": "Bar",
 	})
 }
-
+*/
 func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
 		"title": "ChatGSC",
@@ -91,7 +91,7 @@ func dash(c echo.Context) error {
 		"user": "USERNAME",
 	})
 }
-
+//
 // toString converts any value to string
 // functions that return a string are automatically escaped by html/template
 func toString(v interface{}) string {
