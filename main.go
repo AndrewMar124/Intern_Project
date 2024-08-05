@@ -23,10 +23,6 @@ func initTemplates() templates {
 	// Functions mapped to each template
 	t.Funcs(template.FuncMap{
 		"toString": toString,
-		"link":     link,
-		"email": func() string {
-			return "example@example.com"
-		},
 	})
 
 	// parse all html files in the templates directory
@@ -69,6 +65,7 @@ func root(c echo.Context) error {
 		"title": "Root",
 		"test":  "Hello, world!",
 		"slice": []int{1, 2, 3},
+		"link":"/dash",
 	})
 }
 
@@ -77,10 +74,12 @@ func dash(c echo.Context) error {
 		"title": "ChatGSC",
 		// @todo change this to username from db
 		"user": "USERNAME",
+		"link":"/",
 	})
 }
 // send users own words back
 func query(c echo.Context) error {
+	// validation and error check
 	c.Request().ParseForm()
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user":"USERNAME",
@@ -92,19 +91,4 @@ func query(c echo.Context) error {
 // functions that return a string are automatically escaped by html/template
 func toString(v interface{}) string {
 	return fmt.Sprint(v)
-}
-
-// link returns a styled "a" tag
-// functions that return a template.HTML are not escaped, so all parameters need to be escaped to avoid xss
-func link(location, name string) template.HTML {
-	return escSprintf(`<a class="nav" href="%v">%v</a>`, location, name)
-}
-
-// escSprintf is like fmt.Sprintf but uses the escaped HTML equivalent of the args
-func escSprintf(format string, args ...interface{}) template.HTML {
-	for i, arg := range args {
-		args[i] = template.HTMLEscapeString(fmt.Sprint(arg))
-	}
-
-	return template.HTML(fmt.Sprintf(format, args...))
 }
