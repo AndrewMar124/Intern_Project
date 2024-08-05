@@ -25,7 +25,7 @@
     <div class= row>
       <div class= col-2>
       </div>
-      <div class= col-1>
+      <div id="que" class= col-1>
       </div>
     </div>
   <!--text input-->
@@ -37,7 +37,8 @@
         <!--submitbutton-->
         <ul class=tbox>
           <li style="float:left; width:90%;">
-            <form method="post"> 
+             <!--add target to main and a hx-target-->
+            <form hx-post="/query" hx-target="#que" hx-swap="innerHTML"> 
               <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC">
           </li>
             <li style=float:right;>
