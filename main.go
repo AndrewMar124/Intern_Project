@@ -36,10 +36,10 @@ func initTemplates() templates {
 	}
 
 	// also parse files in subdirectories of templates
-	t, err = t.ParseGlob("templates/*/*.html")
-	if err != nil {
-		log.Fatal(err)
-	}
+	//t, err = t.ParseGlob("templates/*/*.html")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// all templates created
 	return templates{t}
@@ -55,13 +55,13 @@ func main() {
 	// you should also add middleware.CSRF(), once you have forms
 
 	e.GET("/", root)
-	e.GET("/foo", foo)
-	e.GET("/bar", bar)
-	// fix
 	e.GET("/dash", dash)
+	// post method for query, must include template builder!!
+	e.POST("/query", query)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
 }
+
 
 // index.html file
 func root(c echo.Context) error {
@@ -72,23 +72,19 @@ func root(c echo.Context) error {
 	})
 }
 
-func foo(c echo.Context) error {
-	return c.Render(200, "foo.html", map[string]interface{}{
-		"title": "Foo",
-	})
-}
-
-func bar(c echo.Context) error {
-	return c.Render(200, "bar.html", map[string]interface{}{
-		"title": "Bar",
-	})
-}
-
 func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
 		"title": "ChatGSC",
 		// @todo change this to username from db
 		"user": "USERNAME",
+	})
+}
+// send users own words back
+func query(c echo.Context) error {
+	c.Request().ParseForm()
+	return c.Render(200, "chat.html", map[string]interface{}{
+		"user":"USERNAME",
+		"q": c.FormValue("user_txt"),
 	})
 }
 
