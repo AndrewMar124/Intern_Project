@@ -11,6 +11,18 @@
     font-family: "Lucida Sans", sans-serif;
   }
   
+  ul {
+    display: block; /* Ensure the ul itself is a block element */
+    padding: 0;     /* Remove default padding if needed */
+    margin: 0;      /* Remove default margin if needed */
+  }
+
+  li {
+    display: block; /* Ensure each li is displayed as a block element */
+    clear: both;    /* Clear any floating elements */
+  }
+
+
   /* NAV / HEADER */
   ul.nav {
     list-style-type: none;
@@ -29,12 +41,16 @@
     overflow: hidden;
   }
   
-  li {
+  li.uname {
     display: block;
     color: white;
     text-align: center;
     text-decoration: none;
     float: right;
+
+    /*fix*/
+    padding:14px;
+
   }
   
   li a.nav {
@@ -102,6 +118,7 @@
     padding: 15px;
   }
                        /*col*/
+                       /*col-1 may be causing ui issues*/
   .col-1 {
     width: 70%;
     height: 500px;
