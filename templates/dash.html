@@ -38,8 +38,8 @@
         <ul class=tbox>
           <li style="float:left; width:90%;">
              <!--add target to main and a hx-target-->
-            <form hx-post="/query" hx-target="#que" hx-swap="innerHTML"> 
-              <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC">
+            <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="innerHTML"> 
+              <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC" value="">
           </li>
             <li style=float:right;>
               <input style="background-color: #393e46; color:white; border:none; cursor:pointer;" type="submit" name="sub_txt" value="//\\">
