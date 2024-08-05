@@ -14,7 +14,7 @@
         <a class="nav" href="{{.link}}">Settings</a>
         <a class="nav" href="{{.link}}">Log Out</a>
       </div>
-     <li style="float:right;padding:14px;"> {{.user}}</li>
+     <li class="uname"> {{.user}}</li>
     </h4>
   </ul>
    <div class= row>
@@ -25,8 +25,12 @@
     <div class= row>
       <div class= col-2>
       </div>
-      <div id="que" class= col-1>
-      </div>
+          <div class= col-1>
+            <div>
+              <ul id="que">
+              </ul>
+            </div>
+          </div>
     </div>
   <!--text input-->
     <div class= row>
@@ -38,8 +42,8 @@
         <ul class=tbox>
           <li style="float:left; width:90%;">
              <!--add target to main and a hx-target-->
-            <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="innerHTML"> 
-              <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC" value="">
+            <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="beforeend" hx-put="/" hx-on::after-request="this.reset()" autocomplete="off"> 
+              <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC..." value="">
           </li>
             <li style=float:right;>
               <input style="background-color: #393e46; color:white; border:none; cursor:pointer;" type="submit" name="sub_txt" value="//\\">

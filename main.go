@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -48,11 +49,10 @@ func main() {
 	// INIT templates func call
 	e.Renderer = initTemplates()
 	e.Use(middleware.Gzip(), middleware.Secure())
-	// you should also add middleware.CSRF(), once you have forms
 
 	e.GET("/", root)
 	e.GET("/dash", dash)
-	// post method for query, must include template builder!!
+	// post method for query
 	e.POST("/query", query)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
@@ -80,10 +80,17 @@ func dash(c echo.Context) error {
 // send users own words back
 func query(c echo.Context) error {
 	// validation and error check
-	c.Request().ParseForm()
+    c.Request().ParseForm()
+	unv_input := c.FormValue("user_txt")
+	// validate input
+	if strings.Contains(unv_input, "<") ||
+	 strings.Contains(unv_input, ">") {
+		unv_input = "ERROR - INVALID INPUT"
+	}
+	
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user":"USERNAME",
-		"q": c.FormValue("user_txt"),
+		"q": unv_input,
 	})
 }
 
