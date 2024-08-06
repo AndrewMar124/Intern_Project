@@ -115,7 +115,7 @@ func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
 		"title": "ChatGSC",
 		// @todo change this to username from db
-		"user": "USERNAME",
+		//"user": "USERNAME",
 		"link": "/",
 	})
 }
@@ -129,12 +129,14 @@ func query(c echo.Context) error {
 	if strings.Contains(unv_input, "<") ||
 		strings.Contains(unv_input, ">") {
 		unv_input = "ERROR - INVALID INPUT"
+		
 	}
 
 	// send response to AI... aka DB
 	//response := getResponse()
 
 	return c.Render(200, "chat.html", map[string]interface{}{
+		"user": "USERNAME",
 		"q":    unv_input,
 		//"a": response[0],
 	})
