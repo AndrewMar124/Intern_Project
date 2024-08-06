@@ -14,6 +14,7 @@ import (
 type templates struct {
 	*template.Template
 }
+
 // For rendering in later functions
 func (t templates) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.ExecuteTemplate(w, name, data)
@@ -58,14 +59,13 @@ func main() {
 	e.Start(":3000")
 }
 
-
 // index.html file
 func root(c echo.Context) error {
 	return c.Render(200, "index.html", map[string]interface{}{
 		"title": "Root",
 		"test":  "Hello, world!",
 		"slice": []int{1, 2, 3},
-		"link":"/dash",
+		"link":  "/dash",
 	})
 }
 
@@ -73,24 +73,25 @@ func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
 		"title": "ChatGSC",
 		// @todo change this to username from db
-		"user": "USERNAME",
-		"link":"/",
+		//"user": "USERNAME",
+		"link": "/",
 	})
 }
+
 // send users own words back
 func query(c echo.Context) error {
 	// validation and error check
-    c.Request().ParseForm()
+	c.Request().ParseForm()
 	unv_input := c.FormValue("user_txt")
 	// validate input
 	if strings.Contains(unv_input, "<") ||
-	 strings.Contains(unv_input, ">") {
+		strings.Contains(unv_input, ">") {
 		unv_input = "ERROR - INVALID INPUT"
 	}
-	
+
 	return c.Render(200, "chat.html", map[string]interface{}{
-		"user":"USERNAME",
-		"q": unv_input,
+		"user": "USERNAME",
+		"q":    unv_input,
 	})
 }
 
