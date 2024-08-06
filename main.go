@@ -14,8 +14,47 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var db *sql.DB
+
 type templates struct {
 	*template.Template
+}
+
+type Response struct {
+	ID int
+	Rdata string
+}
+
+func init(){
+	// DB INIT
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+}
+
+func getResponse() ([]Response) {
+	rows, err := db.Query("SELECT id, name, email FROM users")
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+	
+	users := []Response{}
+	for rows.Next() {
+		var user Response
+		err := rows.Scan(&user.ID, &user.Rdata)
+		if err != nil {
+			return nil
+		}
+		users = append(users, user)
+	}
+	return users
 }
 
 // For rendering in later functions
@@ -46,6 +85,7 @@ func initTemplates() templates {
 	return templates{t}
 }
 
+
 func main() {
     // WEB INIT
 	e := echo.New()
@@ -54,22 +94,11 @@ func main() {
 
 	e.GET("/", root)
 	e.GET("/dash", dash)
-	// post method for query
 	e.POST("/query", query)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
 
-    // BD INIT
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-	err = db.Ping()
-    if err != nil {
-        log.Fatal(err)
-    }
-	
+
 }
 
 // index.html file
@@ -86,7 +115,7 @@ func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
 		"title": "ChatGSC",
 		// @todo change this to username from db
-		//"user": "USERNAME",
+		"user": "USERNAME",
 		"link": "/",
 	})
 }
@@ -102,10 +131,12 @@ func query(c echo.Context) error {
 		unv_input = "ERROR - INVALID INPUT"
 	}
 
+	// send response to AI... aka DB
+	//response := getResponse()
+
 	return c.Render(200, "chat.html", map[string]interface{}{
-		"user": "USERNAME",
 		"q":    unv_input,
-		"a": "hi",
+		//"a": response[0],
 	})
 }
 

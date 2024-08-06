@@ -11,7 +11,7 @@
 
   <!--_______________________________________________________________________-->
   <!--text input-->
-  <ul style="text-align: center;">
+  <ul style="text-align: center; list-style-type: none;">
     <li style="text-align: center;">
       <!--add target to main and a hx-target-->
       <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="beforeend" hx-put="/" hx-on::after-request="this.reset()" autocomplete="off"> 
@@ -25,7 +25,13 @@
   
   <!--Main / body-->
   <div>
-    <ul id="que" style="text-align: center;">
+    <div style="text-align: right;">
+      | {{.user}}
+    </div>
+    <div style="text-align: left;">
+      AI |
+    </div>
+    <ul id="que" style="text-align: center;list-style-type: none;">
     </ul>
   </div>
 
