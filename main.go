@@ -6,9 +6,12 @@ import (
 	"io"
 	"log"
 	"strings"
+	"database/sql"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	_ "github.com/lib/pq"
 )
 
 type templates struct {
@@ -44,10 +47,8 @@ func initTemplates() templates {
 }
 
 func main() {
+    // WEB INIT
 	e := echo.New()
-
-	e.Debug = true // TODO: this line should be removed in production
-	// INIT templates func call
 	e.Renderer = initTemplates()
 	e.Use(middleware.Gzip(), middleware.Secure())
 
@@ -57,6 +58,18 @@ func main() {
 	e.POST("/query", query)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
+
+    // BD INIT
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+    if err != nil {
+        log.Fatal(err)
+    }
+	
 }
 
 // index.html file
@@ -92,6 +105,7 @@ func query(c echo.Context) error {
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
 		"q":    unv_input,
+		"a": "hi",
 	})
 }
 
