@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"math/rand"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -26,6 +27,8 @@ type Response struct {
 	ID int
 	Rdata string
 }
+
+
 
 func init(){
 	// DB INIT
@@ -44,21 +47,21 @@ func init(){
 func getResponse() ([]Response) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	rows, err := db.QueryContext(ctx, "SELECT id, name, email FROM users")
+	rows, err := db.QueryContext(ctx, "SELECT ID, Rdata FROM response")
 	if err != nil {
 		return nil
 	}
 	defer rows.Close()
-	users := []Response{}
+	resp := []Response{}
 	for rows.Next() {
 		var user Response
 		err := rows.Scan(&user.ID, &user.Rdata)
 		if err != nil {
 			return nil
 		}
-		users = append(users, user)
+		resp = append(resp, user)
 	}
-	return users
+	return resp
 }
 
 // For rendering in later functions
@@ -89,10 +92,10 @@ func initTemplates() templates {
 	return templates{t}
 }
 
-
 func main() {
 	defer db.Close() // close db when done
-    // WEB INIT
+   
+	// WEB INIT
 	e := echo.New()
 	e.Renderer = initTemplates()
 	e.Use(middleware.Gzip(), middleware.Secure())
@@ -138,12 +141,15 @@ func query(c echo.Context) error {
 	}
 
 	// send response to AI... aka DB
-	//response := getResponse()
+	// responses := getResponse()
+	slice := []string{"Hi!", "Sorry I can't help with that...", 
+	"This information can be found in GSC policy number 233",
+	 "Holo", "OK!", "NO!"}
 
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
 		"q":    unv_input,
-		//"a": response[0].Rdata,
+		"a": slice[rand.Intn(6)],
 	})
 }
 
