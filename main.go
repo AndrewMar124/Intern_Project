@@ -1,15 +1,11 @@
 package main
 
 import (
-	"context"
-	"database/sql"
 	"fmt"
 	"html/template"
 	"io"
 	"log"
-	"os"
 	"strings"
-	"time"
 	"math/rand"
 
 	"github.com/labstack/echo/v4"
@@ -17,51 +13,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
-
 type templates struct {
 	*template.Template
-}
-
-type Response struct {
-	ID int
-	Rdata string
-}
-
-
-
-func init(){
-	// DB INIT
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	err = db.PingContext(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func getResponse() ([]Response) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	rows, err := db.QueryContext(ctx, "SELECT ID, Rdata FROM response")
-	if err != nil {
-		return nil
-	}
-	defer rows.Close()
-	resp := []Response{}
-	for rows.Next() {
-		var user Response
-		err := rows.Scan(&user.ID, &user.Rdata)
-		if err != nil {
-			return nil
-		}
-		resp = append(resp, user)
-	}
-	return resp
 }
 
 // For rendering in later functions
@@ -93,8 +46,6 @@ func initTemplates() templates {
 }
 
 func main() {
-	defer db.Close() // close db when done
-   
 	// WEB INIT
 	e := echo.New()
 	e.Renderer = initTemplates()
@@ -105,16 +56,13 @@ func main() {
 	e.POST("/query", query)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
-
-
 }
 
 // index.html file
 func root(c echo.Context) error {
 	return c.Render(200, "index.html", map[string]interface{}{
-		"title": "Root",
-		"test":  "Hello, world!",
-		"slice": []int{1, 2, 3},
+		"title": "Home",
+		"test":  "Welcome...",
 		"link":  "/dash",
 	})
 }
