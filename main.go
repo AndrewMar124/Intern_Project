@@ -127,7 +127,6 @@ func initTemplates() templates {
 	t := template.New("")
 	// Functions mapped to each template
 	t.Funcs(template.FuncMap{
-		"toString": toString,
 	})
 
 	// parse all html files in the templates directory
@@ -204,8 +203,4 @@ func query(c echo.Context) error {
 	})
 }
 
-// toString converts any value to string
-// functions that return a string are automatically escaped by html/template
-func toString(v interface{}) string {
-	return fmt.Sprint(v)
-}
+
