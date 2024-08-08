@@ -19,4 +19,6 @@ For the GSC cyber analyst internship, summer '24, I was given the task of creati
 - HTML / CSS
 - HTMX
 ---
-
+# TODO
+- loading htmx while retreiving response
+- 

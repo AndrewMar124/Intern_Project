@@ -96,6 +96,28 @@ func connDb() {
 		populateTable(15)
 	}
 }
+// retreive for use in post methods
+func getRandomRData() (string) {
+    // Get the total number of entries
+    var count int
+    err := db.QueryRow("SELECT COUNT(*) FROM response").Scan(&count)
+    if err != nil {
+        return ""
+    }
+
+    // Generate a random ID
+    randomID := rand.Intn(count) + 1
+
+    // Fetch the r_data associated with the random ID
+    var rData string
+    err = db.QueryRow("SELECT r_data FROM response WHERE r_id = $1", randomID).Scan(&rData)
+    if err != nil {
+        return ""
+    }
+
+    return rData
+}
+
 // For rendering in later functions
 func (t templates) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.ExecuteTemplate(w, name, data)
@@ -172,17 +194,13 @@ func query(c echo.Context) error {
 		unv_input = "ERROR - INVALID INPUT"
 
 	}
-
-	// send response to AI... aka DB
-	// responses := getResponse()
-	slice := []string{"Hi!", "Sorry I can't help with that...",
-		"This information can be found in GSC policy number 233",
-		"Holo", "OK!", "NO!"}
+	// gen rand data
+	respo := getRandomRData()
 
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
 		"q":    unv_input,
-		"a":    slice[rand.Intn(6)],
+		"a":    respo,
 	})
 }
 
