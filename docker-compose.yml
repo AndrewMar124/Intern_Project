@@ -5,6 +5,8 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: exampledb
+    networks:
+      - my_network
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -12,6 +14,8 @@ services:
     build: .
     ports:
       - "8080:3000"
+    networks:
+      - my_network
     depends_on:
       - db
     environment:
@@ -26,3 +30,7 @@ services:
 
 volumes:
   db_data:
+
+networks:
+  my_network:
+    driver: bridge

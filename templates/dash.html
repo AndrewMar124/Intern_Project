@@ -2,51 +2,31 @@
 
 <!-- Create dashboard using templates-->
 <!--Nav_elements-->
-<ul class=nav>
-    <h4 style="margin:0;">
-      
-    <img style="padding-top:7px; padding-bottom:7px; padding-right: 10px; 
-                padding-left:20px; float:left;" src="https://gscapts.com/assets/images/logo.svg" alt="gsc_img">
-                <!--dropdown btn-->
-    <li class="dropdown" style="float:right;">
-      <a href="javascript:void(0)" class="dropbtn">=</a>
-      <div class="dropdown-content">
-        {{ link "/" "Root Page"}}
-        {{ link "/" "Root Page"}}
-      </div>
-     <li style="float:right;padding:14px;"> {{.user}}</li>
-    </h4>
-  </ul>
-   <div class= row>
-   </div>
+<h1 style="text-align: center;">
+  ChatGSC
+</h1>
+<h2 style="text-align: center;">
+  <a href="{{.link}}">home</a>
+</h2>
+
   <!--_______________________________________________________________________-->
-  <!--Main / body-->
-  <div class= row></div>
-    <div class= row>
-      <div class= col-2>
-      </div>
-      <div id="que" class= col-1>
-      </div>
-    </div>
   <!--text input-->
-    <div class= row>
-      <div class= col-4>
-      </div>
-      <div class= col-3>
-        <!--text-->
-        <!--submitbutton-->
-        <ul class=tbox>
-          <li style="float:left; width:90%;">
-             <!--add target to main and a hx-target-->
-            <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="innerHTML"> 
-              <input style="background-color: #393e46; color:white; border:none;" type="text" name="user_txt" placeholder="Message ChatGSC" value="">
-          </li>
-            <li style=float:right;>
-              <input style="background-color: #393e46; color:white; border:none; cursor:pointer;" type="submit" name="sub_txt" value="//\\">
-          </li>
-            </form>
-        </ul>
-      </div>
-   </div>
+  <ul style="text-align: center; list-style-type: none;">
+    <li style="text-align: center;">
+      <!--add target to main and a hx-target-->
+      <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="beforeend" hx-put="/" hx-on::after-request="this.reset()" autocomplete="off"> 
+        <input type="text" name="user_txt" placeholder="Message ChatGSC..." value="">
+        <input type="submit" name="sub_txt" value="//\\">
+    </li>
+      </form>
+  </ul>
+
+
+  
+  <!--Main / body-->
+  <div>
+    <ul id="que" style="text-align: center;list-style-type: none;">
+    </ul>
+  </div>
 
 {{ template "foot" }}
