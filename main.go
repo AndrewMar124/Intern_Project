@@ -43,6 +43,59 @@ func attemptDBAccess() bool {
 	}
 }
 
+func createTable() bool{
+    createTableSQL := `
+    CREATE TABLE IF NOT EXISTS response (
+        r_id SERIAL PRIMARY KEY,
+        r_data VARCHAR(255)
+    );`
+    _, err := db.Exec(createTableSQL)
+    if err != nil {
+        log.Printf("Unable to create table: %v", err)
+		return false
+    }
+    fmt.Println("Table created successfully!")
+	return true
+}
+
+func populateTable(numRows int) {
+    insertSQL := `INSERT INTO response (r_data) VALUES ($1)`
+
+    for i := 0; i < numRows; i++ {
+        sentence := generateRandomSentence()
+        _, err := db.Exec(insertSQL, sentence)
+        if err != nil {
+            log.Fatalf("Unable to insert row: %v", err)
+        }
+    }
+    fmt.Println("Table populated successfully!")
+}
+
+func generateRandomSentence() string {
+    words := []string{"Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua"}
+    sentenceLength := rand.Intn(10) + 5 // Generate a random sentence length between 5 and 15 words
+
+    sentence := ""
+    for i := 0; i < sentenceLength; i++ {
+        sentence += words[rand.Intn(len(words))] + " "
+    }
+    return sentence
+}
+
+func connDb() {
+	ticker := time.NewTicker(5 * time.Second)
+	defer ticker.Stop()
+	// access db
+	for range ticker.C {
+		if attemptDBAccess() {
+			break
+		}
+	}
+	// attempt to populate the db
+	if createTable() {
+		populateTable(15)
+	}
+}
 // For rendering in later functions
 func (t templates) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.ExecuteTemplate(w, name, data)
@@ -73,15 +126,10 @@ func initTemplates() templates {
 
 func main() {
 	// DB connect
+	connDb()
 	defer db.Close()
-	ticker := time.NewTicker(5 * time.Second)
-	defer ticker.Stop()
+
 	
-	for range ticker.C {
-		if attemptDBAccess() {
-			break
-		}
-	}
 
 	// WEB INIT
 	e := echo.New()
