@@ -1,20 +1,46 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"io"
 	"log"
-	"strings"
 	"math/rand"
+	"os"
+	"strings"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
 )
 
+var db *sql.DB
+
 type templates struct {
 	*template.Template
+}
+
+func init() {
+	var err error
+	db, err = sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Printf("Error opening database: %q", err)
+	}
+	fmt.Println("Successfully opened db!!")
+	attemptDBAccess()
+}
+
+func attemptDBAccess() bool {
+	err := db.Ping()
+	if err != nil {
+		log.Printf("Error connecting to database: %v", err)
+		return false
+	} else {
+		log.Println("Successfully connected to the database!")
+		return true
+	}
 }
 
 // For rendering in later functions
@@ -46,6 +72,17 @@ func initTemplates() templates {
 }
 
 func main() {
+	// DB connect
+	defer db.Close()
+	ticker := time.NewTicker(5 * time.Second)
+	defer ticker.Stop()
+	
+	for range ticker.C {
+		if attemptDBAccess() {
+			break
+		}
+	}
+
 	// WEB INIT
 	e := echo.New()
 	e.Renderer = initTemplates()
@@ -85,19 +122,19 @@ func query(c echo.Context) error {
 	if strings.Contains(unv_input, "<") ||
 		strings.Contains(unv_input, ">") {
 		unv_input = "ERROR - INVALID INPUT"
-		
+
 	}
 
 	// send response to AI... aka DB
 	// responses := getResponse()
-	slice := []string{"Hi!", "Sorry I can't help with that...", 
-	"This information can be found in GSC policy number 233",
-	 "Holo", "OK!", "NO!"}
+	slice := []string{"Hi!", "Sorry I can't help with that...",
+		"This information can be found in GSC policy number 233",
+		"Holo", "OK!", "NO!"}
 
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
 		"q":    unv_input,
-		"a": slice[rand.Intn(6)],
+		"a":    slice[rand.Intn(6)],
 	})
 }
 

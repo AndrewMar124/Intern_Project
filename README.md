@@ -19,8 +19,4 @@ For the GSC cyber analyst internship, summer '24, I was given the task of creati
 - HTML / CSS
 - HTMX
 ---
-# TODO
-- create form handler for AI query calls to fake API
-- connect to postgresql
-- create login (insecure)
-- redesign and impleament UI
+
