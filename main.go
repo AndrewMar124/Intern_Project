@@ -160,6 +160,7 @@ func main() {
 	e.GET("/", root)
 	e.GET("/dash", dash)
 	e.POST("/query", query)
+	e.GET("/answer", answer)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
 }
@@ -193,14 +194,17 @@ func query(c echo.Context) error {
 		unv_input = "ERROR - INVALID INPUT"
 
 	}
-	// gen rand data
-	respo := getRandomRData()
-
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
 		"q":    unv_input,
-		"a":    respo,
 	})
 }
 
-
+func answer(c echo.Context) error {
+	
+	// gen rand data
+	respo := getRandomRData()
+	return c.Render(200, "answer.html", map[string]interface{}{
+		"a":    respo,
+	})
+}
