@@ -90,6 +90,8 @@ func populateTable(numRows int) {
 func populateTable_account(user string, pass string) {
     insertSQL := `INSERT INTO account (u_name, u_pass) VALUES ($1, $2)`
 
+	// typically hash pw here
+
 	_, err := db.Exec(insertSQL, user, pass)
 	if err != nil {
 		log.Printf("Unable to create user: %v", err)
@@ -149,6 +151,32 @@ func getRandomRData() (string) {
     return rData
 }
 
+func verifyLogin(u string, p string) bool {
+		// Variables to store the retrieved data
+		var dbPassword string
+
+		// Query the database for the user's password
+		query := `SELECT u_pass FROM account WHERE u_name=$1`
+		err := db.QueryRow(query, u).Scan(&dbPassword)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				// Handle case where no user is found
+				fmt.Printf("error")
+				return false
+			}
+		}
+		// Compare the stored plain text password with the provided password
+		if dbPassword != p {
+			// Handle case where password does not match
+			fmt.Printf("password entered: %v actual passwd :%q", dbPassword, p)
+			return false
+		}
+	
+		// If passwords match, handle successful login (e.g., create session)
+		return true
+}
+
+
 // For rendering in later functions
 func (t templates) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.ExecuteTemplate(w, name, data)
@@ -192,6 +220,7 @@ func main() {
 	e.GET("/dash", dash)
 	e.POST("/query", query)
 	e.GET("/answer", answer)
+	e.POST("/login", login)
 	e.Static("/dist", "./dist")
 	e.Start(":3000")
 }
@@ -238,4 +267,23 @@ func answer(c echo.Context) error {
 	return c.Render(200, "answer.html", map[string]interface{}{
 		"a":    respo,
 	})
+}
+
+// login page
+func login(c echo.Context) error {
+	// validation and error check
+	c.Request().ParseForm()
+	username_input := c.FormValue("username")
+	password_input := c.FormValue("password")
+
+	// validate input here
+	
+	// if strings are valid
+	// call verify func
+	if !verifyLogin(username_input, password_input) {
+		return c.Render(200, "index.html", map[string]interface{}{
+			"err":  "INCORRECT",
+		})
+	}
+	return c.Redirect(302, "/dash")
 }
