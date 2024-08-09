@@ -58,6 +58,22 @@ func createTable() bool{
 	return true
 }
 
+func createTable_account() bool{
+    createTableSQL :=`
+    CREATE TABLE IF NOT EXISTS account (
+        u_id SERIAL PRIMARY KEY,
+        u_name VARCHAR(255),
+		u_pass VARCHAR(255)
+    );`
+    _, err := db.Exec(createTableSQL)
+    if err != nil {
+        log.Printf("Unable to create table: %v", err)
+		return false
+    }
+    fmt.Println("Table created successfully!")
+	return true
+}
+
 func populateTable(numRows int) {
     insertSQL := `INSERT INTO response (r_data) VALUES ($1)`
 
@@ -69,6 +85,16 @@ func populateTable(numRows int) {
         }
     }
     fmt.Println("Table populated successfully!")
+}
+
+func populateTable_account(user string, pass string) {
+    insertSQL := `INSERT INTO account (u_name, u_pass) VALUES ($1, $2)`
+
+	_, err := db.Exec(insertSQL, user, pass)
+	if err != nil {
+		log.Printf("Unable to create user: %v", err)
+	}
+	fmt.Println("Account created successfully!")
 }
 
 func generateRandomSentence() string {
@@ -94,6 +120,11 @@ func connDb() {
 	// attempt to populate the db
 	if createTable() {
 		populateTable(15)
+	}
+
+	    // add log in table and root user
+	if createTable_account() {
+		populateTable_account("admin" ,"admin")
 	}
 }
 // retreive for use in post methods
