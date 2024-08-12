@@ -12,7 +12,7 @@ For the GSC cyber analyst internship, summer '24, I was given the task of creati
 
 ### The Languages and tools used in this project
 
-- AI: OpenAI's ChatGPT
+- AI: OpenAI's ChatGPT (using the builder function to make an AI)
 - GitHub
 - Docker
 - GO lang
