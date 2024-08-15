@@ -11,6 +11,15 @@
     font-family: sans-serif;
   }
   
+
+  /* new */
+  input:focus {
+    outline:none;
+  }
+
+
+
+
   /* NAV / HEADER */
   ul.nav {
     list-style-type: none;
@@ -127,7 +136,7 @@
   }
   .col-4 {
     width: 25%;
-    background-color:#222831;
+    background-color:#2228313f;
   }
   
   /* the user input */

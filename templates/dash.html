@@ -4,66 +4,64 @@
 <!--Nav_elements-->
 <ul class=nav>
   <h4 style="margin:0;">
-    
-  <img style="padding-top:7px; padding-bottom:7px; padding-right: 10px; 
+
+    <img style="padding-top:7px; padding-bottom:7px; padding-right: 10px; 
               padding-left:20px; float:left;" src="https://gscapts.com/assets/images/logo.svg" alt="gsc_img">
-              <!--dropdown btn-->
-  <li class="dropdown" style="float:right;">
-    <a href="javascript:void(0)" class="dropbtn">\\//</a>
-    <div class="dropdown-content">
-      <a class=nav href="{{.link}}">Log out</a>
-    </div>
-   <li class=nav style="float:right;padding:14px;"> {{.user}}</li>
-   <li class=nav style="float:left;padding:14px;"> ChatGSC</li>
+    <!--dropdown btn-->
+    <li class="dropdown" style="float:right;">
+      <a href="javascript:void(0)" class="dropbtn">\\//</a>
+      <div class="dropdown-content">
+        <a class=nav href="{{.link}}">Sign out</a>
+      </div>
+    <li class=nav style="float:right;padding:14px;"> {{.user}}</li>
+    <li class=nav style="float:left;padding:14px;"> ChatGSC</li>
   </h4>
 </ul>
- <div class= row>
- </div>
+<div class=row>
+</div>
+
 <!--_______________________________________________________________________-->
 <!--left column-->
-<div class= row>
-  <div class= col-2>
-   blank 
+<div class=row>
+  <div class=col-2>
   </div>
 
-  <div class= col-1>
+  <div class=col-1 style="word-wrap: break-word; overflow-wrap: break-word; overflow-x: none; overflow-y: auto;">
     <!--Main / body-->
     <div>
-      <ul id="que" style="text-align: center;list-style-type: none;">
-      <!--this is where the chat is-->
+      <ul id="que"
+        style="text-align: center;list-style-type: none; padding-left: 3px; padding-right: 3px; text-indent:-1.5em; padding-left: 1.5em; margin-left: 1.5em; line-height: 1.6;">
+        <!--this is where the chat is-->
       </ul>
     </div>
   </div>
 </div>
 
+<!--_______________________________________________________________________-->
+<!--text input-->
+<div class=row>
+  <div class=col-4 style="z-index: -1;">
+  </div>
+  <div class=col-3>
 
-  <!--_______________________________________________________________________-->
-  <!--text input-->
-  <div class= row>
-    <div class= col-4>
-    </div>
-    <div class= col-3>
+
+    <ul class="tbox">
+      <li style="float: left; width: 90%;">
+        <!--add target to main and a hx-target-->
+        <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="beforeend" hx-put="/"
+          hx-on::after-request="this.reset()" autocomplete="off" hx-trigger="submit throttle:2s">
 
 
-  <ul style="text-align: center; list-style-type: none;">
-    <li style="text-align: center;">
-      <!--add target to main and a hx-target-->
-      <form id="chat_box" hx-post="/query" hx-target="#que" hx-swap="beforeend"
-       hx-put="/" hx-on::after-request="this.reset()" autocomplete="off"
-       hx-trigger="submit throttle:2s" > 
-        <input type="text" name="user_txt" placeholder="Message ChatGSC..." value="">
-        <input type="submit" name="sub_txt" value="//\\">
-    </li>
+          <input class="hi" style="background-color: #393e46; color:white; border:none; text-shadow: 1px 1px black;"
+            type="text" name="user_txt" placeholder="Message ChatGSC..." value="">
+      </li>
+      <li style="float:right;">
+        <input style="background-color: #393e46; color:white; border:none; cursor:pointer; text-shadow: 2px 2px black;"
+          type="submit" name="sub_txt" value="//\\">
+      </li>
       </form>
-  </ul>
-
-
-  
-  <!-- Main / body
-  <div>
-    <ul id="que" style="text-align: center;list-style-type: none;">
-    </li>
     </ul>
-  </div> -->
+  </div>
+</div>
 
 {{ template "foot" }}
