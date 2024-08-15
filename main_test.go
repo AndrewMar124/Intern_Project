@@ -9,48 +9,41 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func TestHandle(t *testing.T) {
-	// t.Errorf("my test failed :(")
+func TestDash(t *testing.T) {
+	t.Run("render template", func(t *testing.T) {
+		ptitle := "ChatGSC"
+		rec := createContext(t, "/dash")
+		assertCorrectResponse(t, rec, ptitle)
+	})
+	
 }
 
-func TestDash(t *testing.T) {
+func assertCorrectResponse(t testing.TB, rec *httptest.ResponseRecorder, title string) {
+	t.Helper()
+	if rec.Code != http.StatusOK {
+		t.Errorf("Status expected %q, status received %q", http.StatusOK, rec.Code)
+	}
+	if !strings.Contains(rec.Body.String(), title) {
+		t.Errorf("Missing page content: %q", title)
+	}
+}
+
+func createContext(t testing.TB, page string) *httptest.ResponseRecorder{
 	// Create an Echo instance
 	e := echo.New()
 	e.Renderer = initTemplates()
 
-	// Create a new HTTP request
-	req := httptest.NewRequest(http.MethodGet, "/dash", nil)
-
+	// req + rec
+	req := httptest.NewRequest(http.MethodGet, page, nil)
 	// Create a new HTTP recorder to capture the response
 	rec := httptest.NewRecorder()
 
-	// Create an Echo context
+	// make context
 	c := e.NewContext(req, rec)
 	err := dash(c)
 	if err != nil {
 		t.Error(err)
 	}
-    
-	if rec.Code != http.StatusOK {
-		t.Error("page not found")
-	}
-	if !strings.Contains(rec.Body.String(), "ChatGSC") {
-		t.Error("missing data")
-	}
-	// Call the handler
-	/*
-		if assert.NoError(t, dash(c)) {
-			// Check the status code
-			assert.Equal(t, http.StatusOK, rec.Code)
 
-			// Check the rendered template name
-			assert.Contains(t, rec.Body.String(), "dash.html")
-
-			// Check that the title is rendered correctly
-			assert.Contains(t, rec.Body.String(), "ChatGSC")
-
-			// Check that the link is rendered correctly
-			assert.Contains(t, rec.Body.String(), "/")
-		}
-	*/
+	return rec
 }
