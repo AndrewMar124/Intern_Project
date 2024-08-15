@@ -256,13 +256,6 @@ func query(c echo.Context) error {
 	// validation and error check
 	c.Request().ParseForm()
 	unv_input := c.FormValue("user_txt")
-	// validate input
-	/*
-	if strings.Contains(unv_input, "<") ||
-		strings.Contains(unv_input, ">") {
-		unv_input = "ERROR - INVALID INPUT"
-	}
-	*/
 
 	return c.Render(200, "chat.html", map[string]interface{}{
 		"user": "USERNAME",
@@ -279,7 +272,7 @@ func answer(c echo.Context) error {
 	})
 }
 
-// login page
+// login
 func login(c echo.Context) error {
 	// validation and error check
 	c.Request().ParseForm()

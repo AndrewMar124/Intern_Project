@@ -9,10 +9,23 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func TestDash(t *testing.T) {
-	t.Run("render template", func(t *testing.T) {
+func TestTemplates(t *testing.T) {
+	t.Run("render template root", func(t *testing.T) {
+		ptitle := "Home"
+		rec, contx := createContext(t, "/")
+		err := root(contx)
+		if err != nil {
+		t.Error(err)
+	}
+		assertCorrectResponse(t, rec, ptitle)
+	})
+	t.Run("render template dash", func(t *testing.T) {
 		ptitle := "ChatGSC"
-		rec := createContext(t, "/dash")
+		rec, contx := createContext(t, "/dash")
+		err := dash(contx)
+		if err != nil {
+			t.Error(err)
+		}
 		assertCorrectResponse(t, rec, ptitle)
 	})
 	
@@ -28,22 +41,16 @@ func assertCorrectResponse(t testing.TB, rec *httptest.ResponseRecorder, title s
 	}
 }
 
-func createContext(t testing.TB, page string) *httptest.ResponseRecorder{
+func createContext(t testing.TB, page string) (*httptest.ResponseRecorder, echo.Context){
+	t.Helper()
 	// Create an Echo instance
 	e := echo.New()
 	e.Renderer = initTemplates()
-
 	// req + rec
 	req := httptest.NewRequest(http.MethodGet, page, nil)
 	// Create a new HTTP recorder to capture the response
 	rec := httptest.NewRecorder()
-
 	// make context
 	c := e.NewContext(req, rec)
-	err := dash(c)
-	if err != nil {
-		t.Error(err)
-	}
-
-	return rec
+	return rec, c
 }
