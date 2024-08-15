@@ -246,6 +246,8 @@ func root(c echo.Context) error {
 
 func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
+		// change user spot to current user
+		"user": "USERNAME",
 		"title": "ChatGSC",
 		"link": "/",
 	})
@@ -258,6 +260,7 @@ func query(c echo.Context) error {
 	unv_input := c.FormValue("user_txt")
 
 	return c.Render(200, "chat.html", map[string]interface{}{
+		// change to current user
 		"user": "USERNAME",
 		"q":    unv_input,
 	})

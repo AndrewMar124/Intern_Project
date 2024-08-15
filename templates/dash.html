@@ -2,14 +2,26 @@
 
 <!-- Create dashboard using templates-->
 <!--Nav_elements-->
-<h1 style="text-align: center;">
-  ChatGSC
-</h1>
-<h2 style="text-align: center;">
-  <a href="{{.link}}">Log out</a>
-</h2>
+<ul class=nav>
+  <h4 style="margin:0;">
+    
+  <img style="padding-top:7px; padding-bottom:7px; padding-right: 10px; 
+              padding-left:20px; float:left;" src="https://gscapts.com/assets/images/logo.svg" alt="gsc_img">
+              <!--dropdown btn-->
+  <li class="dropdown" style="float:right;">
+    <a href="javascript:void(0)" class="dropbtn">\\//</a>
+    <div class="dropdown-content">
+      <a class=nav href="{{.link}}">Log out</a>
+    </div>
+   <li class=nav style="float:right;padding:14px;"> {{.user}}</li>
+   <li class=nav style="float:left;padding:14px;"> ChatGSC</li>
+  </h4>
+</ul>
+ <div class= row>
+ </div>
+<!--_______________________________________________________________________-->
 
-  <!--_______________________________________________________________________-->
+
   <!--text input-->
   <ul style="text-align: center; list-style-type: none;">
     <li style="text-align: center;">
