@@ -1,11 +1,11 @@
 <!--add answer class, color, bubble, align etc...-->
 
-<li style="text-align: left; text-decoration: none;color:#007780">
+<li
+    style=" text-indent:-1.5em; padding-left: 1.5em; margin-left: 1.5em; line-height: 1.6;  text-align: left; text-decoration: none; color:rgba(255, 255, 255, 0.753); text-shadow:1px 1px rgba(0, 0, 0, 0.212);">
     {{.user}} : {{.q}}
 </li>
 
-<li style="text-align: left; text-decoration: none;color:#ff7b00"
- hx-get="/answer" hx-target="this" hx-trigger="load delay:2s" 
- hx-swap="outerHTML">
-    <div style="color:red;">...</div>
+<li style=" text-align: left; text-decoration: none; color: black; text-shadow:2px 2px white;" hx-get="/answer"
+    hx-target="this" hx-trigger="load delay:2s" hx-swap="outerHTML">
+    <div class="loader" style="color: black; text-shadow:1px 1px white;"></div>
 </li>

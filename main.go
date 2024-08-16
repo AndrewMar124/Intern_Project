@@ -22,7 +22,7 @@ type templates struct {
 	*template.Template
 }
 
-func init() {
+func my_init() {
 	var err error
 	db, err = sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -217,6 +217,7 @@ func initTemplates() templates {
 
 func main() {
 	// DB connect
+	my_init()
 	connDb()
 	defer db.Close()
 
@@ -245,9 +246,9 @@ func root(c echo.Context) error {
 
 func dash(c echo.Context) error {
 	return c.Render(200, "dash.html", map[string]interface{}{
+		// change user spot to current user
+		"user": "USERNAME",
 		"title": "ChatGSC",
-		// @todo change this to username from db
-		//"user": "USERNAME",
 		"link": "/",
 	})
 }
@@ -257,15 +258,9 @@ func query(c echo.Context) error {
 	// validation and error check
 	c.Request().ParseForm()
 	unv_input := c.FormValue("user_txt")
-	// validate input
-	/*
-	if strings.Contains(unv_input, "<") ||
-		strings.Contains(unv_input, ">") {
-		unv_input = "ERROR - INVALID INPUT"
-	}
-	*/
 
 	return c.Render(200, "chat.html", map[string]interface{}{
+		// change to current user
 		"user": "USERNAME",
 		"q":    unv_input,
 	})
@@ -280,7 +275,7 @@ func answer(c echo.Context) error {
 	})
 }
 
-// login page
+// login
 func login(c echo.Context) error {
 	// validation and error check
 	c.Request().ParseForm()
